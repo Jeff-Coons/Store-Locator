@@ -155,36 +155,18 @@
 
 
         /**
-         *  Init function that will pass the user options and create new Geocode object.
-         *  @param {Object} - Settings and map options set by the user that will overwrite the defaults.
-         *  @return
+         * Init the Constructor and build out the map
+         * @param {Object} - Settings and map options set by the user that will overwrite the defaults.
+         * @return {Methods} - check browser support for request, set the options provided, and
+         * center the map depending on the option provide by the user.
          */
         Locator.init = function (opts) {
             self = this;
 
             self.createRequestInstance();
             self.setOptions(opts);
+            self.getMapCenter();
 
-            /**
-             * Get user's location based on Navigator object or
-             * Get the address and then get the coordinates for map centering
-             */
-            var geoLocate = opts.geolocate,
-                addressProvided = opts.provideAddress;
-
-            if ( geoLocate === true && addressProvided === true ) {
-
-                var warning = 'WARNING: You chose to Geolocate and provide an address. For best results please choose one or the other'
-                console.log(warning);
-
-            } else if ( geoLocate === true ) {
-
-                self.geoLocate();
-
-            } else if ( addressProvided === true ) {
-
-                self.getAddrAndGeoCode(opts.address);
-            }
         };
 
 
@@ -216,6 +198,32 @@
             userSettings = extend(defaults, opts);
             if (userSettings.geocode === false) {
                 userSettings.mapOptions.zoom = 4;
+            }
+        };
+
+
+        /**
+         * Get user's location based on Navigator object or
+         * Get the address and then get the coordinates for map centering
+         */
+        Locator.getMapCenter = function () {
+            var geoLocate = userSettings.geolocate,
+                addressProvided = userSettings.provideAddress;
+
+            if ( geoLocate === true && addressProvided === true ) {
+
+                var warning = 'WARNING: You chose to Geolocate and provide an address. For best results please choose one or the other'
+                console.log(warning);
+
+                self.geoLocate();
+
+            } else if ( geoLocate === true ) {
+
+                self.geoLocate();
+
+            } else if ( addressProvided === true ) {
+
+                self.getAddrAndGeoCode(opts.address);
             }
         };
 
@@ -305,10 +313,9 @@
         /**
          *  Set Property Values for the Address Returned From Geocoding Results
          *  @param {Object} Returned object from geocoding results
-         *  @returns {Object} Geocoding Properties replaced with results
+         *  @return {Object} Geocoding Properties replaced with results
         **/
         Locator.setProps = function (results) {
-
             var components =    results.address_components,
                 address =       results.formatted_address,
                 placeID =       results.place_id,
@@ -463,7 +470,7 @@
         /**
          * Access the Control Position Object to Position the Controls
          * @param {String} - Positon Location based on Google Maps APIv3
-         * @returns {Number} - Value used to position the Controls, and
+         * @return {Number} - Value used to position the Controls, and
          * call to the events for the map.
          */
         Locator.controlsPosition = function (ctrlPosition) {
@@ -563,7 +570,7 @@
 
     /**
      * If statement declaring the constructor globally
-     * @returns {Object|Error} - The constructor object or Console Log of the error
+     * @return {Object|Error} - The constructor object or Console Log of the error
      */
     if ( typeof(Locator) === 'undefined' ) {
         window.Locator = define_locator();
