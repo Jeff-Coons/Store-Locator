@@ -468,6 +468,28 @@
 
 
         /**
+         * Create a list showing the results received from the ajax request
+         * @param {String} - ID or class of the container to append the results to.
+         * @return {String} - Markup to pass to the render method
+         */
+        Locator.createList = function () {
+            // Build the list but do not render
+        };
+
+
+        /**
+         * Append or Prepend the markup to the container passed
+         * @param {String} - Method of rendering the list item to the dom
+         * @param {String} - ID or Class of the container that results will be rendered to
+         * @param {String} - Markup of the element that will be rendered to the dom
+         * @return {Node} — Node element rendered to the dom
+         */
+        Locator.renderItem = function (renderMethod, container, item) {
+            // render the list item here
+        };
+
+
+        /**
          * Access the Control Position Object to Position the Controls
          * @param {String} - Positon Location based on Google Maps APIv3
          * @return {Number} - Value used to position the Controls, and
