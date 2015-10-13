@@ -162,6 +162,7 @@
         Locator.init = function (opts) {
             self = this;
 
+            self.createRequestInstance();
             self.setOptions(opts);
 
             /**
@@ -188,15 +189,10 @@
 
 
         /**
-         * Create a new Request instance depending on browser support
+         * Change the type of request depending if were in IE
          */
         Locator.createRequestInstance = function () {
-             if (window.XMLHttpRequest) {
-
-                 getRequest = new XMLHttpRequest();
-
-             } else if (window.ActiveXObject) {
-
+            if (window.ActiveXObject) {
                  try {
                      getRequest = new ActiveXObject('Msxml2.XMLHTTP');
                  }
@@ -207,8 +203,8 @@
                      }
                      catch (e) {}
                  }
-             }
-         };
+            }
+        };
 
 
         /**
