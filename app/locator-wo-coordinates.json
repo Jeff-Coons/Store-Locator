@@ -1,0 +1,112 @@
+[
+   {
+      "id":"0000547362",
+      "category":"Store",
+      "name":"WOODIE'S ON TRYON",
+      "address":"520 NORTH TRYON",
+      "city":"CHARLOTTE",
+      "state":"NC",
+      "postal":"28202",
+      "phone":"(704) 335-5475",
+      "fromCache":1
+   },
+   {
+      "id":"0000520008",
+      "category":"Store",
+      "name":"CIRCLE K #01884",
+      "address":"701 N GRAHAM ST",
+      "city":"CHARLOTTE",
+      "state":"NC",
+      "postal":"28202",
+      "phone":null,
+      "fromCache":1
+   },
+   {
+      "id":"0000110470",
+      "category":"Store",
+      "name":"STOP AND GO",
+      "address":"1632 S TRYON ST",
+      "city":"CHARLOTTE",
+      "state":"NC",
+      "postal":"28203",
+      "phone":"(704) 293-1360",
+      "fromCache":1
+   },
+   {
+      "id":"0000802204",
+      "category":"Store",
+      "name":"QUIK SHOPPE #3",
+      "address":"201 EAST BLVD",
+      "city":"CHARLOTTE",
+      "state":"NC",
+      "postal":"28203",
+      "phone":"(704) 333-0807",
+      "fromCache":1
+   },
+   {
+      "id":"0000802324",
+      "category":"Store",
+      "name":"CIRCLE K #08403",
+      "address":"1246 EAST BLVD",
+      "city":"CHARLOTTE",
+      "state":"NC",
+      "postal":"28203",
+      "phone":"(704) 335-0144",
+      "fromCache":1
+   },
+   {
+      "id":"0000043271",
+      "category":"Store",
+      "name":"FRIENDLY MART",
+      "address":"2022 E 7TH ST",
+      "city":"CHARLOTTE",
+      "state":"NC",
+      "postal":"28204",
+      "phone":"(704) 334-2676",
+      "fromCache":1
+   },
+   {
+      "id":"0000966415",
+      "category":"Store",
+      "name":"QUIK SHOPPE #15",
+      "address":"3000 WILKINSON BLVD",
+      "city":"CHARLOTTE",
+      "state":"NC",
+      "postal":"28208",
+      "phone":"(704) 393-1940",
+      "fromCache":1
+   },
+   {
+      "id":"0000A81762",
+      "category":"Store",
+      "name":"MIGHTY MIDGET MART, LLC",
+      "address":"4936-B ALBERMARLE RD",
+      "city":"CHARLOTTE",
+      "state":"NC",
+      "postal":"28205",
+      "phone":"(704) 537-8267",
+      "fromCache":1
+   },
+   {
+      "id":"0000801601",
+      "category":"Store",
+      "name":"CIRCLE K #04743",
+      "address":"4001 SOUTH BLVD",
+      "city":"CHARLOTTE",
+      "state":"NC",
+      "postal":"28209",
+      "phone":"(704) 527-5944",
+      "fromCache":1
+   },
+   {
+      "id":"0000150899",
+      "category":"Store",
+      "name":"SAM'S MART #36",
+      "address":"4200 STATESVILLE RD",
+      "city":"CHARLOTTE",
+      "state":"NC",
+      "postal":"28269",
+      "phone":"(704) 921-3074",
+      "fromCache":1
+   }
+]
