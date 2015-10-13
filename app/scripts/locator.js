@@ -206,25 +206,41 @@
          * Get user's location based on Navigator object or
          * Get the address and then get the coordinates for map centering
          */
+
+         /* ======================================================================
+            RENAME METHOD --- Current name is confusing
+         ====================================================================== */
         Locator.getMapCenter = function () {
             var geoLocate = userSettings.geolocate,
                 addressProvided = userSettings.provideAddress;
 
-            if ( geoLocate === true && addressProvided === true ) {
+            // if ( geoLocate === true && addressProvided === true ) {
+            //
+            //     var warning = 'WARNING: You chose to Geolocate and provide an address. For best results please choose one or the other'
+            //     console.log(warning);
+            //
+            //     self.geoLocate();
+            //
+            // } else if ( geoLocate === true ) {
+            //
+            //     self.geoLocate();
+            //
+            // } else if ( addressProvided === true ) {
+            //
+            //     self.getAddrAndGeoCode(opts.address);
+            // }
 
+            if ( geoLocate === true && addressProvided === true ) {
                 var warning = 'WARNING: You chose to Geolocate and provide an address. For best results please choose one or the other'
                 console.log(warning);
-
-                self.geoLocate();
-
-            } else if ( geoLocate === true ) {
-
-                self.geoLocate();
-
-            } else if ( addressProvided === true ) {
-
-                self.getAddrAndGeoCode(opts.address);
             }
+
+            if ( geoLocate === true ) {
+                self.geoLocate();
+            } else if (geoLocate === false && addressProvided === true) {
+                self.getAddrAndGeoCode(userSettings.address);
+            }
+
         };
 
 
@@ -244,7 +260,6 @@
                     // self.setCenter(userLocation);
 
                 }, function () {
-                    console.log(this);
                     self.handleNoGeoLocate(browserSupport);
                 })
             }
@@ -314,7 +329,7 @@
          *  Set Property Values for the Address Returned From Geocoding Results
          *  @param {Object} Returned object from geocoding results
          *  @return {Object} Geocoding Properties replaced with results
-        **/
+         */
         Locator.setProps = function (results) {
             var components =    results.address_components,
                 address =       results.formatted_address,
