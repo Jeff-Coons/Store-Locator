@@ -165,7 +165,7 @@
 
             self.createRequestInstance();
             self.setOptions(opts);
-            self.getMapCenter();
+            self.callMethodForMapCentering();
 
         };
 
@@ -203,14 +203,10 @@
 
 
         /**
-         * Get user's location based on Navigator object or
-         * Get the address and then get the coordinates for map centering
+         * Geolocate only if user hasn't provided address
+         * @return {Method} - call the correct method depending on user options
          */
-
-         /* ======================================================================
-            RENAME METHOD --- Current name is confusing
-         ====================================================================== */
-        Locator.getMapCenter = function () {
+        Locator.callMethodForMapCentering = function () {
             var geoLocate = userSettings.geolocate,
                 addressProvided = userSettings.provideAddress;
 
@@ -357,7 +353,6 @@
                 OK = 200;
 
             if ( getRequest.readyState === DONE ) {
-                console.log('cool coool coool coool');
                 if ( getRequest.status === OK ) {
 
                     locations = JSON.parse(getRequest.responseText);
@@ -373,7 +368,7 @@
         /**
          * Create the Map Object
          * @param {Object} - Map Options and Settings
-         * @returns Create the map and call the method to center it on the location provided.
+         * @return Create the map and call the method to center it on the location provided.
          */
         Locator.createMap = function (options) {
             map = new google.maps.Map(
@@ -381,7 +376,6 @@
                 options.mapOptions
             )
 
-            // self.createMarker(userSettings.mapOptions.center);
             self.setCenter(map);
             self.controlsPosition(userSettings.controlsPosition);
             self.checkForCoordinates(locations);
