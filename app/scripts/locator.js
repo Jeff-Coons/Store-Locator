@@ -91,7 +91,7 @@
 
 
     /* ==================================================
-        Locator Library Methods
+        Store Locator
     ================================================== */
 
     /**
@@ -107,7 +107,7 @@
         var Locator = {};
 
 
-        /** Global variables to used across multiple methods. */
+        /** Global variables to be used across multiple methods. */
         var self,
             userSettings = userSettings || {},
             map,
@@ -146,8 +146,8 @@
 
 
         /**
-         * Default object that is needed for Geo Location.
-         * @type {Object} - Defualt location to be used for geolocation.
+         * Default object that is needed for Geolocation or Geocoding.
+         * @type {Object} - Defualt location for geolocation or geocoding.
          */
         var geoCodeProps = {
             address: 'United States'
@@ -158,7 +158,7 @@
          * Init the Constructor and build out the map
          * @param {Object} - Settings and map options set by the user that will overwrite the defaults.
          * @return {Methods} - check browser support for request, set the options provided, and
-         * center the map depending on the option provide by the user.
+         * call the correct method for centering the map.
          */
         Locator.init = function (opts) {
             self = this;
@@ -171,7 +171,7 @@
 
 
         /**
-         * Change the type of request depending if were in IE
+         * Change the type of request if in IE
          */
         Locator.createRequestInstance = function () {
             if (window.ActiveXObject) {
@@ -203,7 +203,7 @@
 
 
         /**
-         * Geolocate only if user hasn't provided address
+         * Geocode or Geolocate if user hasn't provided an address
          * @return {Method} - call the correct method depending on user options
          */
         Locator.callMethodForMapCentering = function () {
@@ -246,7 +246,7 @@
 
         /**
          * Get the user's location based on the IP Address
-         * @param {Boolean} - if geo location fails error = true
+         * @param {Boolean} - indication if geolocation has failed
          * @return Coordinates of the location found using the user's IP Address
          */
         Locator.geoLocateUsingIPAddr = function (error) {
@@ -295,7 +295,7 @@
 
 
         /**
-         *  Call to methods if address input is provided else use default methods
+         *  If the address isn't coordinates, get the address provided and geocode for coordinates
          *  @param {String} - ID of the input to get the value
          *  @return Call to methods for address and geolocation
          */
@@ -336,7 +336,7 @@
         /**
          * Ajax request to get data from the server
          * @param {String} - Location of the data to make the request
-         * @return {Request|Event} - Open and send the request and listen for state change
+         * @return {Request} - Open and send the request
          */
         Locator.ajaxRequest = function (url) {
             getRequest.open('GET', url);
@@ -345,8 +345,8 @@
 
 
         /**
-         * Get the data on state change after the request
-         * @return {Object} - Get the response back from the server
+         * Listen for the response of the ajax request
+         * @return {Object} - Get the data and begin the creation of the map using those results
          */
         Locator.stateChange = getRequest.onreadystatechange = function () {
             var DONE = 4,
@@ -356,7 +356,13 @@
                 if ( getRequest.status === OK ) {
 
                     locations = JSON.parse(getRequest.responseText);
-                    Locator.createMap(userSettings);
+
+                    /** If the map has already been created then check the data for coordinates */
+                    if (map === undefined) {
+                        Locator.createMap(userSettings);
+                    } else {
+                        self.checkForCoordinates(locations);
+                    }
 
                 } else {
                     console.log('Error: ' + getRequest.status);
