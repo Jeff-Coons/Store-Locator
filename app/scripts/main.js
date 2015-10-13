@@ -2,7 +2,7 @@ Locator.init({
     name: 'options',
     container: 'map',
     geolocate: true,
-    provideAddress: true,
+    provideAddress: false,
     address: 'zip',
     controls: '#controls',
     zoomIn: '#zoom-in',

@@ -4,10 +4,10 @@
     /**
      *  List of resources from Google Maps
      *
-     *  Controls - //developers.google.com/maps/documentation/javascript/controls
-     *  Events - //developers.google.com/maps/documentation/javascript/events
-     *  Geo Location - //developers.google.com/maps/articles/geolocation?hl=en
-     *
+     *  @see Controls - //developers.google.com/maps/documentation/javascript/controls
+     *  @see Events - //developers.google.com/maps/documentation/javascript/events
+     *  @see Geo Location - //developers.google.com/maps/articles/geolocation?hl=en
+     *  @see Geo Location Properties - //developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation
      */
 
 
@@ -214,33 +214,20 @@
             var geoLocate = userSettings.geolocate,
                 addressProvided = userSettings.provideAddress;
 
-            // if ( geoLocate === true && addressProvided === true ) {
-            //
-            //     var warning = 'WARNING: You chose to Geolocate and provide an address. For best results please choose one or the other'
-            //     console.log(warning);
-            //
-            //     self.geoLocate();
-            //
-            // } else if ( geoLocate === true ) {
-            //
-            //     self.geoLocate();
-            //
-            // } else if ( addressProvided === true ) {
-            //
-            //     self.getAddrAndGeoCode(opts.address);
-            // }
+            if ( addressProvided === true ) {
 
-            if ( geoLocate === true && addressProvided === true ) {
-                var warning = 'WARNING: You chose to Geolocate and provide an address. For best results please choose one or the other'
-                console.log(warning);
-            }
-
-            if ( geoLocate === true ) {
-                self.geoLocate();
-            } else if (geoLocate === false && addressProvided === true) {
                 self.getAddrAndGeoCode(userSettings.address);
-            }
 
+                /** Provide warning if both options are set to true */
+                if ( geoLocate === true ) {
+                    console.log('WARNING: You chose to Geolocate and provide an address. The address provided takes precedence over Geolocation, if you desire different results please adjust the options provided');
+                }
+
+            } else if ( geoLocate === true ) {
+
+                self.geoLocate();
+
+            }
         };
 
 
@@ -248,31 +235,28 @@
          * Get the user's location based on the browser's Navigator object
          */
         Locator.geoLocate = function () {
-            if ( navigator.geolocation ) {
-                browserSupport = true;
+            navigator.geolocation.getCurrentPosition(function (position) {
 
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    console.log( position.coords );
+                geoCodeProps.location = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
 
-                    new google.maps.LatLng( position.coords.latitude, position.coords.latitude );
+                self.ajaxRequest(userSettings.dataLocation);
 
-                    self.ajaxRequest(userSettings.dataLocation);
-                    // self.setCenter(userLocation);
-
-                }, function () {
-                    self.handleNoGeoLocate(browserSupport);
-                })
-            }
+            }, self.geoLocateUsingIPAddr(browserSupport))
         };
 
 
         /**
-         * Get the user's location based on the browser's Navigator object
+         * Get the user's location based on the IP Address
+         * @param {Boolean} - if geo location fails error = true
+         * @return Coordinates of the location found using the user's IP Address
          */
-        Locator.handleNoGeoLocate = function (error) {
+        Locator.geoLocateUsingIPAddr = function (error) {
             if ( error === true ) {
                 console.log('Geolocation Service Failed')
-                userLocation = 'United States'
+                // use the user's ip address to get the coordinates for map centering
             }
         };
 
@@ -305,7 +289,7 @@
                     self.setProps(results[0]);
 
                     /** Get the locations from the server */
-                    // self.ajaxRequest(userSettings.dataLocation);
+                    self.ajaxRequest(userSettings.dataLocation);
 
                 } else {
                     console.log('Geocode was not successful for the following reason: ' + status);
@@ -359,8 +343,6 @@
          * @return {Request|Event} - Open and send the request and listen for state change
          */
         Locator.ajaxRequest = function (url) {
-            // self.createRequestInstance();
-            console.log(getRequest);
             getRequest.open('GET', url);
             getRequest.send(null);
         };
@@ -400,7 +382,8 @@
             )
 
             // self.createMarker(userSettings.mapOptions.center);
-            // self.setCenter(map);
+            self.setCenter(map);
+            self.controlsPosition(userSettings.controlsPosition);
             self.checkForCoordinates(locations);
         };
 
@@ -471,14 +454,10 @@
         /**
          * Set Center of the Map
          * @param - {Object} the map object created after calling Google Maps
-         * @return Center the map and create the controls
+         * @return Center the map using the coordinates from geolocation or geocoding
          */
         Locator.setCenter = function (map) {
-            console.log('center center center');
-            console.log(geoCodeProps.location);
-            map.setCenter(userLocation);
-
-            self.controlsPosition(userSettings.controlsPosition);
+            map.setCenter(geoCodeProps.location);
         };
 
 
