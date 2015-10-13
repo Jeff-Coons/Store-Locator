@@ -366,8 +366,8 @@
                         self.checkForCoordinates(locations);
                     }
 
-                    if ( userSettings.listData ) {
-                        // self.createList(userSettings.listContainer);
+                    if ( userSettings.listResults ) {
+                        self.createList(locations);
                     }
 
                 } else {
@@ -469,23 +469,39 @@
 
         /**
          * Create a list showing the results received from the ajax request
-         * @param {String} - ID or class of the container to append the results to.
+         * @param {Object} - Details of the item
          * @return {String} - Markup to pass to the render method
          */
-        Locator.createList = function () {
-            // Build the list but do not render
+        Locator.createList = function (results) {
+            if ( results !== undefined ) {
+                results.forEach(function (result) {
+
+                    var name = '<h2>' + result.name + '</h2>',
+                        addr1 = '<p>' + result.address + '</p>',
+                        addr2 = '<p>' + result.city + ',' + result.state + ' ' + result.postal + '/<p>',
+                        phone = '<p>' + result.phone + '</p>',
+                        listItem = name + '<br />' + addr1 + '<br />' + addr2 + '<br />' + phone,
+                        div = '<div>' + listItem + '</div>';
+
+                    console.log(userSettings.listContainer);
+                    self.renderItem(div);
+                });
+            }
         };
 
 
         /**
          * Append or Prepend the markup to the container passed
-         * @param {String} - Method of rendering the list item to the dom
-         * @param {String} - ID or Class of the container that results will be rendered to
          * @param {String} - Markup of the element that will be rendered to the dom
          * @return {Node} — Node element rendered to the dom
          */
-        Locator.renderItem = function (renderMethod, container, item) {
+        Locator.renderItem = function (item) {
             // render the list item here
+            var parent = document.querySelector('#' + userSettings.listContainer);
+            console.log(parent);
+            console.log(item);
+            parent.appendChild(item);
+
         };
 
 
