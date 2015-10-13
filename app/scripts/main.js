@@ -10,6 +10,8 @@ Locator.init({
     controlsPosition: 'RIGHT_BOTTOM',
     // dataLocation: '/locator.json',
     dataLocation: '/locator-wo-coordinates.json',
+    listResults: true,
+    listContainer: 'data-list',
     mapOptions: {
         zoom: 13,
         disableDefaultUI: true,

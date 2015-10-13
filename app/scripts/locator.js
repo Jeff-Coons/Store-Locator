@@ -128,12 +128,14 @@
             container: 'map', // ID of map container
             geolocate: false, // Boolean for getting the user's location through the browser
             provideAddress: true, // Boolean for geocoding to get coordinates
-            address: 'null', // ID of input
-            controls: null, // ID or Classs of container for custom controls
-            zoomIn: null, // ID or Classs of zoom in button
-            zoomOut: null, // ID or Classs of zoom in button
+            address: null, // ID of input
+            controls: null, // ID or Class of container for custom controls
+            zoomIn: null, // ID or Class of zoom in button
+            zoomOut: null, // ID or Class of zoom in button
             controlsPosition: null, // Positon of the controls based on Google Maps APIv3
             dataLocation: null, // Url of the data from the server
+            listResults: true, // Boolean to show the results in a list
+            listContainer: null, // ID or Class of the container that will hold the results list
             mapOptions: {
                 center: {lat: 38.8833, lng: 77.0167}, // Object with coordinates of The United States
                 zoom: 4, // Zoom of map on load
@@ -362,6 +364,10 @@
                         Locator.createMap(userSettings);
                     } else {
                         self.checkForCoordinates(locations);
+                    }
+
+                    if ( userSettings.listData ) {
+                        // self.createList(userSettings.listContainer);
                     }
 
                 } else {
