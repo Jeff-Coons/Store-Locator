@@ -61,14 +61,20 @@
 
     /**
      * Loop through an array like object and handle the callback
-     * @param {String} - ID or Class of dom element
+     * @param {String|Object} - ID or Class of dom element, or an array like object
      * @param {Callback} - function that will handle all user options
      * @return {Object} - Object containing the modified data
      */
     function each(selector, callback) {
-        var obj = document.querySelectorAll(selector),
+        var obj,
             length,
             i = 0;
+
+        if ( typeof selector === 'object' ) {
+            obj = selector;
+        } else {
+            obj = document.querySelectorAll(selector);
+        }
 
         if ( arrayLike(obj) ) {
             length = obj.length;
@@ -474,17 +480,16 @@
          */
         Locator.createList = function (results) {
             if ( results !== undefined ) {
-                results.forEach(function (result) {
+                each(results, function () {
 
-                    var name = '<h2>' + result.name + '</h2>',
-                        addr1 = '<p>' + result.address + '</p>',
-                        addr2 = '<p>' + result.city + ',' + result.state + ' ' + result.postal + '/<p>',
-                        phone = '<p>' + result.phone + '</p>',
-                        listItem = name + '<br />' + addr1 + '<br />' + addr2 + '<br />' + phone,
-                        div = '<div>' + listItem + '</div>';
+                    var name = '<h2 class="store-title">' + this.name + '</h2>',
+                        addr1 = '<p class="store-addr1">' + this.address + '</p>',
+                        addr2 = '<p class="store-addr2">' + this.city + ',' +  ' ' + this.state + ' ' + this.postal + '</p>',
+                        phone = '<p class="store-phone">' + this.phone + '</p>',
+                        directions = '<a class="store-cta" href="https://maps.google.com/maps?saddr=' + geoCodeProps.address + '&amp;daddr=' + this.address + ' ' + this.city + ',' +  ' ' + this.state + ' ' + this.postal + '" target="_blank" class="directions" target="_blank">Get Directions <i class="fa fa-long-arrow-right"></i></a>',
+                        listItem = name + addr1 + addr2 + phone + directions;
 
-                    console.log(userSettings.listContainer);
-                    self.renderItem(div);
+                    self.renderItem(listItem);
                 });
             }
         };
@@ -496,12 +501,13 @@
          * @return {Node} — Node element rendered to the dom
          */
         Locator.renderItem = function (item) {
-            // render the list item here
             var parent = document.querySelector('#' + userSettings.listContainer);
-            console.log(parent);
-            console.log(item);
-            parent.appendChild(item);
 
+            var div = document.createElement('div'),
+                divClass = div.className = 'store-item',
+                childNode = div.innerHTML = item;
+
+            parent.appendChild(div);
         };
 
 
